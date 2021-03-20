@@ -1,0 +1,79 @@
+---
+title: "Proyecto (Primera Entrega)"
+date: "18 de Febrero, 2021"
+header-includes: 
+   \usepackage{graphicx}
+   \usepackage{fancyhdr}
+   \pagestyle{fancy}
+   \setlength\headheight{28pt}
+   \fancyhead[R]{\includegraphics[width=6cm]{/Users/LuisCarlosGuevara/Desktop/Programacion\ /Clase_Programacion_R/logoexternado.jpg}}
+   \fancyfoot[LE,RO]{}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+# **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
+
+### **1.** Integrantes de grupo.
+
+-   *Nicolas Gonzalez*
+
+-   *Joan Galeano*
+
+-   *Alejandro Guevara*
+
+### **2.** Pregunta de investigación:
+
+-   ¿Es el buen desempeño económico un factor decisivo para un rendimiento sobresaliente en los Juegos Olímpicos de verano?
+
+### **3.** Nombre de la base de datos seleccionada.
+
+-   **Olympic Medals by Country 2021.**
+
+-   **Banco Mundial.**
+
+    -   PIB
+    -   Desempleo
+    -   Inflación
+    -   Población
+
+### **4.** Entidad que produjo o produce los datos.
+
+-   **World Population review.**
+
+-   **Banco Mundial.**
+
+### **5.** Número de variables y número de observaciones que se encuentran en la base de datos.
+
+-   Número de variables: 9.
+
+-   Número de observaciones: 134.
+
+    <div class=text-justify>
+
+    El buen desempeño económico de los países está dado por una multiplicidad de condiciones que resulta difícil mencionar a cabalidad. Para este trabajo de investigación, se explicará el buen desempeño económico desde el análisis de los agregados macroeconómicos fundamentales, como lo son: la Inflación, el PIB (Producto Interno Bruto) y la Tasa de Desempleo. De esta manera, se podrá inferir que un país con un nivel de desempeño óptimo desde la óptica económica será aquel cuyos agregados monetarios presenten valores ajustados a sus rangos objetivo.
+
+    Por otro lado, se decidió incluir el tamaño poblacional de los países bajo el entendido de que un mayor número de personas pueden ser más productivas, y mejorar el desempeño económico de los países.
+
+    Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
+
+    </div>
+
+    |      |     |       |        |                |           |     |           |           |
+    |:----:|:---:|:-----:|:------:|:--------------:|:---------:|:---:|:---------:|:---------:|
+    |      |     |       |        | **Variables**  |           |     |           |           |
+    | País | Oro | Plata | Bronce | Total medallas | Población | PIB | Desempleo | Inflación |
+
+### **6.** Si la base de datos es transversal, serie de tiempo o longitudinal (panel).
+
+-   Tipo: Corte transversal y serie de tiempo.
+
+### **7.** Périodo (s) que cubre la base de datos.
+
+-   Periodo de estudio: 1950-2021.
+
+### **8.** Si la base de datos es de acceso público o no.
+
+-   Acceso público: Sí.
