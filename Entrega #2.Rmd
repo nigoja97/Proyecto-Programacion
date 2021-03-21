@@ -1,0 +1,47 @@
+---
+title: "Proyecto (Segunda Entrega)"
+date: "26 de Marzo, 2021"
+header-includes: 
+   \usepackage{graphicx}
+   \usepackage{fancyhdr}
+   \pagestyle{fancy}
+   \setlength\headheight{28pt}
+   \fancyhead[R]{\includegraphics[width=6cm]{/Users/LuisCarlosGuevara/Desktop/Programacion\ /Clase_Programacion_R/logoexternado.jpg}}
+   \fancyfoot[LE,RO]{}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+# **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
+
+### **1.** Integrantes de grupo.
+
+-   *Nicolas Gonzalez*
+
+-   *Joan Galeano*
+
+-   *Alejandro Guevara*
+
+### **2.** Pregunta de investigación:
+
+-   ¿Es el buen desempeño económico un factor decisivo para un rendimiento sobresaliente en los Juegos Olímpicos de verano?
+
+### **3.** El documento usa fuentes variadas, de calidad y pertinentes.
+
+### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
+
+### **5.** Se identifican las variables relevantes dentro de la base de datos.
+
+<div style="text-align: justify">
+
+El buen desempeño económico de los países está dado por una multiplicidad de condiciones que resulta difícil mencionar a cabalidad. Para este trabajo de investigación, se explicará el buen desempeño económico desde el análisis de los agregados macroeconómicos fundamentales, Es por esta razón que hemos decidido identificar variables relevantes en la base de datos, como lo es el PIB y la Población siendo estas variables independientes fundamentales que determinan el éxito según la literatura estudiada, Cabe aclarar que se decidió identificar el tamaño poblacional de los países bajo el entendido de que un mayor número de personas pueden ser más productivas, y mejorar el desempeño económico de los países.
+
+Por otro lado, se decidió incluir e identificar la variable inflación. Consideramos esta de gran relevancia en la investigación para determinar el comportamiento macroeconómico de cada país que se encuentra ligado a su vez con el PIB. En cuanto a la variable Desempleo, determinamos su relevancia debido a su información para analizar entorno económico de cada uno de los países.
+
+Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
+
+<div/>
+
+### **6.** Se identifican los análisis estadísticos/econométricos que se realizarán, y estos se adecúan a la base de datos y a las variables seleccionadas.
