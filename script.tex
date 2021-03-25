@@ -1,0 +1,223 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Proyecto (Primera Entrega)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{graphicx} \usepackage{fancyhdr} \pagestyle{fancy} \setlength\headheight{28pt} \fancyhead[R]{\includegraphics[width=6cm]{/Users/LuisCarlosGuevara/Desktop/Programacion\ /Clase_Programacion_R/logoexternado.jpg}} \fancyfoot[LE,RO]{}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Proyecto (Primera Entrega)}
+\author{}
+\date{\vspace{-2.5em}18 de Febrero, 2021}
+
+\begin{document}
+\maketitle
+
+\hypertarget{buen-desempeuxf1o-econuxf3mico-la-clave-del-uxe9xito-para-un-rendimiento-sobresaliente-en-los-juegos-oluxedmpicos.}{%
+\section{\texorpdfstring{\textbf{Buen desempeño económico, la clave del
+éxito para un rendimiento sobresaliente en los juegos
+olímpicos.}}{Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.}}\label{buen-desempeuxf1o-econuxf3mico-la-clave-del-uxe9xito-para-un-rendimiento-sobresaliente-en-los-juegos-oluxedmpicos.}}
+
+\hypertarget{integrantes-de-grupo.}{%
+\subsubsection{\texorpdfstring{\textbf{1.} Integrantes de
+grupo.}{1. Integrantes de grupo.}}\label{integrantes-de-grupo.}}
+
+\begin{itemize}
+\item
+  \emph{Nicolas Gonzalez}
+\item
+  \emph{Joan Galeano}
+\item
+  \emph{Alejandro Guevara}
+\end{itemize}
+
+\hypertarget{pregunta-de-investigaciuxf3n}{%
+\subsubsection{\texorpdfstring{\textbf{2.} Pregunta de
+investigación:}{2. Pregunta de investigación:}}\label{pregunta-de-investigaciuxf3n}}
+
+\begin{itemize}
+\tightlist
+\item
+  ¿Es el buen desempeño económico un factor decisivo para un rendimiento
+  sobresaliente en los Juegos Olímpicos de verano?
+\end{itemize}
+
+\hypertarget{nombre-de-la-base-de-datos-seleccionada.}{%
+\subsubsection{\texorpdfstring{\textbf{3.} Nombre de la base de datos
+seleccionada.}{3. Nombre de la base de datos seleccionada.}}\label{nombre-de-la-base-de-datos-seleccionada.}}
+
+\begin{itemize}
+\item
+  \textbf{Olympic Medals by Country 2021.}
+\item
+  \textbf{Banco Mundial.}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    PIB
+  \item
+    Desempleo
+  \item
+    Inflación
+  \item
+    Población
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{entidad-que-produjo-o-produce-los-datos.}{%
+\subsubsection{\texorpdfstring{\textbf{4.} Entidad que produjo o produce
+los
+datos.}{4. Entidad que produjo o produce los datos.}}\label{entidad-que-produjo-o-produce-los-datos.}}
+
+\begin{itemize}
+\item
+  \textbf{World Population review.}
+\item
+  \textbf{Banco Mundial.}
+\end{itemize}
+
+\hypertarget{nuxfamero-de-variables-y-nuxfamero-de-observaciones-que-se-encuentran-en-la-base-de-datos.}{%
+\subsubsection{\texorpdfstring{\textbf{5.} Número de variables y número
+de observaciones que se encuentran en la base de
+datos.}{5. Número de variables y número de observaciones que se encuentran en la base de datos.}}\label{nuxfamero-de-variables-y-nuxfamero-de-observaciones-que-se-encuentran-en-la-base-de-datos.}}
+
+\begin{itemize}
+\item
+  Número de variables: 9.
+\item
+  Número de observaciones: 134.
+
+  El buen desempeño económico de los países está dado por una
+  multiplicidad de condiciones que resulta difícil mencionar a
+  cabalidad. Para este trabajo de investigación, se explicará el buen
+  desempeño económico desde el análisis de los agregados macroeconómicos
+  fundamentales, como lo son: la Inflación, el PIB (Producto Interno
+  Bruto) y la Tasa de Desempleo. De esta manera, se podrá inferir que un
+  país con un nivel de desempeño óptimo desde la óptica económica será
+  aquel cuyos agregados monetarios presenten valores ajustados a sus
+  rangos objetivo.
+
+  Por otro lado, se decidió incluir el tamaño poblacional de los países
+  bajo el entendido de que un mayor número de personas pueden ser más
+  productivas, y mejorar el desempeño económico de los países.
+
+  Teniendo en cuenta lo anterior, se explicará el rendimiento de
+  determinados países en los juegos olímpicos de verano, desde su
+  desempeño económico (Inflación, Desempleo y Producto interno Bruto) y
+  su tamaño poblacional. Para medir el rendimiento de los países en los
+  Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas
+  durante el periodo de 1950 hasta 2021.
+
+  \begin{longtable}[]{@{}ccccccccc@{}}
+  \toprule
+  \endhead
+  & & & & \textbf{Variables} & & & &\tabularnewline
+  País & Oro & Plata & Bronce & Total medallas & Población & PIB &
+  Desempleo & Inflación\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{itemize}
+
+\hypertarget{si-la-base-de-datos-es-transversal-serie-de-tiempo-o-longitudinal-panel.}{%
+\subsubsection{\texorpdfstring{\textbf{6.} Si la base de datos es
+transversal, serie de tiempo o longitudinal
+(panel).}{6. Si la base de datos es transversal, serie de tiempo o longitudinal (panel).}}\label{si-la-base-de-datos-es-transversal-serie-de-tiempo-o-longitudinal-panel.}}
+
+\begin{itemize}
+\tightlist
+\item
+  Tipo: Corte transversal y serie de tiempo.
+\end{itemize}
+
+\hypertarget{puxe9riodo-s-que-cubre-la-base-de-datos.}{%
+\subsubsection{\texorpdfstring{\textbf{7.} Périodo (s) que cubre la base
+de
+datos.}{7. Périodo (s) que cubre la base de datos.}}\label{puxe9riodo-s-que-cubre-la-base-de-datos.}}
+
+\begin{itemize}
+\tightlist
+\item
+  Periodo de estudio: 1950-2021.
+\end{itemize}
+
+\hypertarget{si-la-base-de-datos-es-de-acceso-puxfablico-o-no.}{%
+\subsubsection{\texorpdfstring{\textbf{8.} Si la base de datos es de
+acceso público o
+no.}{8. Si la base de datos es de acceso público o no.}}\label{si-la-base-de-datos-es-de-acceso-puxfablico-o-no.}}
+
+\begin{itemize}
+\tightlist
+\item
+  Acceso público: Sí.
+\end{itemize}
+
+\end{document}

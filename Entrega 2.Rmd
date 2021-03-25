@@ -3,7 +3,6 @@ title: "Segunda Entrega del Proyecto"
 date: "26/3/2021"
 output:
   pdf_document: default
-  word_document: default
 ---
 
 # **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
@@ -33,9 +32,9 @@ require(dplyr)
 require(naniar)
 require(knitr)
 ```
-Creacion de la base de datos
+Manejo de la base de datos
 
-Extraemos primero los datos sobre los paises y el total de medallas ganadas desde 1950
+Conseguimos los datos de las medallas
 ```{r}
 pagina <-"http://www.olympedia.org/statistics/medal/country"
 pagina_desc <- read_html(pagina)
@@ -47,9 +46,9 @@ medallas <- as.integer(medallas)
 medallas_por_pais <- tibble(paises, medallas)
 ```
 
-Ahora procedemos a extraer los datos de las variables macroeconómicas
+Aqui los de las variables macroeconomicas
 ```{r}
-crecimiento <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2019)
+crecimiento <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
 crecimiento <- tibble(crecimiento$country,crecimiento$date,crecimiento$NY.GDP.PCAP.KD.ZG)
 crecimiento <- crecimiento %>% 
   rename(
@@ -65,7 +64,8 @@ crecimiento_prom <- crecimiento_prom %>%
     paises = Group.1
     )
 ```
-Juntamos ambos grupos de variables en un solo tibble
+
+Y aca juntamos todas las variables
 ```{r}
 datos <- left_join(medallas_por_pais, crecimiento_prom, by = "paises")
 View(datos)
