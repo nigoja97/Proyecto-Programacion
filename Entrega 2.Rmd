@@ -1,17 +1,7 @@
 ---
 title: "Proyecto (Segunda Entrega)"
-date: "26 de Marzo, 2021"
-header-includes: 
-   \usepackage{graphicx}
-   \usepackage{fancyhdr}
-   \pagestyle{fancy}
-   \setlength\headheight{28pt}
-   \fancyhead[R]{\includegraphics[width=6cm]{/Users/LuisCarlosGuevara/Desktop/Programacion\ /Clase_Programacion_R/logoexternado.jpg}}
-   \fancyfoot[LE,RO]{}
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+date: "26/3/2021"
+output: pdf_document
 ---
 
 # **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
@@ -24,9 +14,11 @@ output:
 
 -   *Alejandro Guevara*
 
-### **2.** Pregunta de investigación:
+### **2.** Pregunta de investigación e hipótesis:
 
 -   ¿Es el buen desempeño económico un factor decisivo para un rendimiento sobresaliente en los Juegos Olímpicos de verano?
+
+-   oicaoisncoasncoiascinasicnasoincasoncoasincoasihfh      0gñosdbcsjbcñobcsoñjbcduoc    weñoufgweiñucsd
 
 ### **3.** El documento usa fuentes variadas, de calidad y pertinentes.
 
