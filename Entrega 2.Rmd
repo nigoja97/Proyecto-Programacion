@@ -1,5 +1,5 @@
 ---
-title: "Proyecto (Segunda Entrega)"
+title: "Segunda Entrega del Proyecto"
 date: "26/3/2021"
 output:
   pdf_document: default
