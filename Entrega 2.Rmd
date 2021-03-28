@@ -37,7 +37,7 @@ Alejado del enfoque econométrico se encuentra *Macro-variables determinantes de
 
 A diferencia de los últimos dos autores mencionados, Arias realiza un análisis sobre la evidencia empírica, para demostrar que si bien el tamaño de un país en términos de PIB y población es un factor determinante para la obtención de medallas en cuanto a la elite deportiva, como es el caso de la Unión Soviética y Estados Unidos (los países con mas medallas en toda la historia de los juegos olímpicos), no es un factor determinante para los países pequeños que también obtienen medallas. Sin embargo, resalta la investigación científica y tecnológica como solución a los problemas relacionados al entrenamiento.
 
-### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
+### **4.** Bases de datos escogidas
 
 Paquetes
 
@@ -93,7 +93,7 @@ datos <- left_join(medallas_por_pais, crecimiento_prom, by = "paises")
 View(datos)
 ```
 
-### **5.** Se identifican las variables relevantes dentro de la base de datos.
+### **5.** Identificación de variables relevantes
 
 <div style="text-align: justify">
 
@@ -103,18 +103,23 @@ Por otro lado, se decidió incluir e identificar la variable inflación. Conside
 
 Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
 
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Variables                            | Descripción                                                                       | Signo           | Observaciones |
-|--------------------------------------|-----------------------------------------------------------------------------------|-----------------|---------------|
++======================================+===================================================================================+=================+===============+
 | Total de Medallas                    | Total de medallas obtenidas por el país *j.*                                      | medallas\_ *j*  | 151           |
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Crecimiento Promedio del PIB         | El promedio simple de la tasa de crecimiento del PIB desde 1950 para el país *j.* | *growthgdp_j*   | 151           |
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Crecimiento Promedio de la Población | Crecimiento poblacional promedio del país *j*                                     | *growthpob\_ j* | 151           |
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Desempleo                            | Tasa de desempleo promedio del país *j*                                           | *u_j*           | 151           |
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Inflacion                            | Tasa de inflación promedio del país *j*                                           | *inf_j*         | 151           |
-|                                      |                                                                                   |                 |               |
++--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 
-### **6.** Se identifican los análisis estadísticos/econométricos que se realizarán, y estos se adecúan a la base de datos y a las variables seleccionadas.
+### **6.** Metodología
 
-### **7.** Bibliografía
+### **7.** Referencias bibliográficas
 
 Arias, F. G., & Arias, F. G. Macro-variables determinantes del éxito deportivo y olímpico. REVISTA GERENCIA DEPORTIVA, 67.
 
