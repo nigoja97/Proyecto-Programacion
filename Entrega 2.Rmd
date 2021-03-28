@@ -88,15 +88,15 @@ growth_gdp_prom <- growth_gdp_prom %>%
 ```
 Crecimiento Promedio de la Poblacion
 ```{r}
-growth_pob <- 
+growth_pob <- wb_data("SP.POP.GROW", start_date = 1950, end_date = 2016)
 ```
 Tasa promedio del desempleo
 ```{r}
-desempleo <- 
+desempleo_total <- wb_data("SL.UEM.TOTL.ZS", start_date = 1950, end_date = 2016)
 ```
 Tasa promedio de la inflacion
 ```{r}
-inflacion <- 
+inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
 ```
 
 
