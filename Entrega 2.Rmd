@@ -59,7 +59,7 @@ Las variables de interés correspondieron a las mismas del estudio anterior, las
 
 ### **4.** Bases de datos escogidas
 
-Paquetes
+### Paquetes
 
 ```{r}
 library(tidyverse)
@@ -71,9 +71,9 @@ library(naniar)
 library(knitr)
 ```
 
-Manejo de la base de datos
+### Manejo de la base de datos
 
-Conseguimos los datos de las medallas
+### Variable explicada
 
 ```{r}
 pagina <-"http://www.olympedia.org/statistics/medal/country"
@@ -86,7 +86,7 @@ medallas <- as.integer(medallas)
 medallas_por_pais <- tibble(paises, medallas)
 ```
 
-Aqui los de las variables macroeconomicas
+### Variables explicativas
 
 Crecimiento Promedio del PIB
 
@@ -143,19 +143,13 @@ Por otro lado, se decidió incluir e identificar la variable inflación. Conside
 
 Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
 
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Variables                            | Descripción                                                                       | Signo           | Observaciones |
-+======================================+===================================================================================+=================+===============+
+|--------------------------------------|-----------------------------------------------------------------------------------|-----------------|---------------|
 | Total de Medallas                    | Total de medallas obtenidas por el país *j.*                                      | medallas\_ *j*  | 151           |
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Crecimiento Promedio del PIB         | El promedio simple de la tasa de crecimiento del PIB desde 1950 para el país *j.* | *growthgdp_j*   | 151           |
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Crecimiento Promedio de la Población | Crecimiento poblacional promedio del país *j*                                     | *growthpob\_ j* | 151           |
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Desempleo                            | Tasa de desempleo promedio del país *j*                                           | *u_j*           | 151           |
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Inflacion                            | Tasa de inflación promedio del país *j*                                           | *inf_j*         | 151           |
-+--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 
 ### **6.** Metodología
 
@@ -171,4 +165,4 @@ Hoffmann, R., Ging, L. C., & Ramasamy, B. (2002). The socio-economic determinant
 
 Trivedi, P. K., & Zimmer, D. M. (2014). Success at the summer Olympics: How much do economic factors explain?. Econometrics, 2(4), 169-202.
 
-Vagenas, G., & Vlachokyriakou, E. (2012). Olympic medals and demo-economic factors: Novel predictors, the ex-host effect, the exact role of team size, and the “population-GDP” model revisited. Sport Management Review, 15(2), 211-217.
+Vagenas, G., & Vlachokyriakou, E. (2012). Olympic medals and demo-economic factors: Novel predictors, the ex-host effect, the exact role of team size, and the "population-GDP" model revisited. Sport Management Review, 15(2), 211-217.
