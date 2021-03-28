@@ -45,13 +45,13 @@ A diferencia de los últimos dos autores mencionados, Arias realiza un análisis
 ### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
 Paquetes
 ```{r}
-require(tidyverse)
-require(rvest)
-require(haven)
-require(wbstats)
-require(dplyr)
-require(naniar)
-require(knitr)
+library(tidyverse)
+library(rvest)
+library(haven)
+library(wbstats)
+library(dplyr)
+library(naniar)
+library(knitr)
 ```
 Manejo de la base de datos
 
