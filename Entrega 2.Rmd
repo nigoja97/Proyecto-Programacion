@@ -2,6 +2,8 @@
 title: "Segunda Entrega del Proyecto"
 date: "26/3/2021"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
 ---
 
@@ -22,6 +24,18 @@ output:
 -   oicaoisncoasncoiascinasicnasoincasoncoasincoasihfh      0gñosdbcsjbcñobcsoñjbcduoc    weñoufgweiñucsd
 
 ### **3.** El documento usa fuentes variadas, de calidad y pertinentes.
+
+<div style="text-align: justify">
+
+**¿Qué	factores	macroeconómicos	influyen	en	la	obtención	de	medallas olímpicas	y	paralímpicas?** Por Dr. Michael Creel
+
+Se decidió utilizar esta investigación por su parecidoEste realizó una investigación sobre algunos indicadores macroeconomicos y sus efectos en la obtencion de medallas tanto para los Juegos Olimpicos como para los Juegos Paralimpicos.
+
+Este presenta un modelo econométrico de datos panel para los datos de 2004, 2008 y 2012. Toma varibales explicativas el lagaritmo de pib per capita, el logaritmo de la población (*lngdp_pc*), el país (*country*)  y el año (*year*). Además controla por una variable binaria que toma valor de 1 cuando el país en cuestión fue el anfitrión de los juegos ese año y el valor de 0 para el resto (*host*).
+
+Tras rechazar el modelo de efectos aleatorios, determina que la unica variable que influye en la obtencion de medallas, em ambos juegos, es *host* pues el resto resultaron ser estadisticamente no significativas. De todos modos, el autor resalta la falta de presicion de sus variables y de las bases de datos utilizadas. Y propone utilizar "gasto del gobierno en deportes" para futuros análisis de la misma índole. 
+
+### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
 Paquetes
 ```{r}
 require(tidyverse)
@@ -70,8 +84,6 @@ Y aca juntamos todas las variables
 datos <- left_join(medallas_por_pais, crecimiento_prom, by = "paises")
 View(datos)
 ```
-
-### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
 
 ### **5.** Se identifican las variables relevantes dentro de la base de datos.
 
