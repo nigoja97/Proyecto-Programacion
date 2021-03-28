@@ -21,29 +21,26 @@ output:
 
 -   ¿Es el buen desempeño económico un factor decisivo para un rendimiento sobresaliente en los Juegos Olímpicos de verano?
 
--   oicaoisncoasncoiascinasicnasoincasoncoasincoasihfh      0gñosdbcsjbcñobcsoñjbcduoc    weñoufgweiñucsd
+-   oicaoisncoasncoiascinasicnasoincasoncoasincoasihfh 0gñosdbcsjbcñobcsoñjbcduoc weñoufgweiñucsd
 
 ### **3.** Revisión Bibliográfica
 
 <div style="text-align: justify">
 
+Los estudios realizados sobre los factores que influyen en el desempeño del país en diferentes deportes son muy variados. Para el caso del futbol, por ejemplo, está *The socio-economic determinants of international soccer performance.* de Hoffman et al, donde se argumenta, sostiene y demuestra que los factores culturales, geográficos y demográficos afectan significativamente el desempeño en el deporte. Mientras que después de un punto, el pib per cápita empieza a afectar negativamente el desempeño.
 
-Los estudios realizados sobre los factores que influyen en el desempeño del país en diferentes deportes son muy variados. Para el caso del futbol, por ejemplo, está *The socio-economic determinants of international soccer performance.* de Hoffman et al, donde se argumenta, sostiene y demuestra que los factores culturales, geográficos y demográficos afectan significativamente el desempeño en el deporte. Mientras que después de un punto, el pib per cápita empieza a afectar negativamente el desempeño. 
-
-Por otro lado también encontramos *¿Qué factores macroeconómicos influyen en la obtención de medallas olímpicas y paralímpicas?* de Martinez, utilizando un modelo econométrico de datos panel para 2004, 2008 y 2012. Se toma como variables explicativas el logaritmo de pib per cápita, el logaritmo de la población (*lngdp_pc*), el país (*country*) y el año (*year*).  Como control una variable binaria que toma valor de 1 cuando el país en cuestión fue el anfitrión de los juegos ese año y el valor de 0 si no fue así (*host*).
+Por otro lado también encontramos *¿Qué factores macroeconómicos influyen en la obtención de medallas olímpicas y paralímpicas?* de Martinez, utilizando un modelo econométrico de datos panel para 2004, 2008 y 2012. Se toma como variables explicativas el logaritmo de pib per cápita, el logaritmo de la población (*lngdp_pc*), el país (*country*) y el año (*year*). Como control una variable binaria que toma valor de 1 cuando el país en cuestión fue el anfitrión de los juegos ese año y el valor de 0 si no fue así (*host*).
 
 Y aunque rechaza el modelo de efectos aleatorios, determina que la única variable que influye en la obtención de medallas, en ambos juegos, es *host* pues el resto resultaron ser estadísticamente no significativas. De todos modos, el autor resalta la falta de precisión de sus variables y de las bases de datos utilizadas. Y propone utilizar "gasto del gobierno en deportes" para futuros análisis de la misma índole. Además, se llega a la conclusión que el hecho de saber que un país va a ser el próximo anfitrión de los juegos, sería lógico suponer que la inversión, privada y pública, aumente, así como la preparación de los atletas.
 
-Alejado del enfoque econométrico se encuentra *Macro-variables determinantes del éxito deportivo y olímpico* de Arias. Donde se realiza una interesante distinción bastante importante sobre las variables que afectan el éxito deportivo. Así, sabiendo que las variables más importantes son las micro (lo que respecta al deportista de manera individual). Seguidas por las meso (todas las políticas públicas en relación con el deporte pero que no son exclusivas de un solo atleta). Y, finalmente, las variables macro, que se pueden definir como todo el conjunto de condiciones socioculturales del país. 
+Alejado del enfoque econométrico se encuentra *Macro-variables determinantes del éxito deportivo y olímpico* de Arias. Donde se realiza una interesante distinción bastante importante sobre las variables que afectan el éxito deportivo. Así, sabiendo que las variables más importantes son las micro (lo que respecta al deportista de manera individual). Seguidas por las meso (todas las políticas públicas en relación con el deporte pero que no son exclusivas de un solo atleta). Y, finalmente, las variables macro, que se pueden definir como todo el conjunto de condiciones socioculturales del país.
 
 A diferencia de los últimos dos autores mencionados, Arias realiza un análisis sobre la evidencia empírica, para demostrar que si bien el tamaño de un país en términos de PIB y población es un factor determinante para la obtención de medallas en cuanto a la elite deportiva, como es el caso de la Unión Soviética y Estados Unidos (los países con mas medallas en toda la historia de los juegos olímpicos), no es un factor determinante para los países pequeños que también obtienen medallas. Sin embargo, resalta la investigación científica y tecnológica como solución a los problemas relacionados al entrenamiento.
 
-
-
-
-
 ### **4.** Se identifica una base de datos a la que podrán acceder y que es pertinente para responder la pregunta de investigación propuesta.
+
 Paquetes
+
 ```{r}
 library(tidyverse)
 library(rvest)
@@ -53,9 +50,11 @@ library(dplyr)
 library(naniar)
 library(knitr)
 ```
+
 Manejo de la base de datos
 
 Conseguimos los datos de las medallas
+
 ```{r}
 pagina <-"http://www.olympedia.org/statistics/medal/country"
 pagina_desc <- read_html(pagina)
@@ -68,6 +67,7 @@ medallas_por_pais <- tibble(paises, medallas)
 ```
 
 Aqui los de las variables macroeconomicas
+
 ```{r}
 crecimiento <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
 crecimiento <- tibble(crecimiento$country,crecimiento$date,crecimiento$NY.GDP.PCAP.KD.ZG)
@@ -87,6 +87,7 @@ crecimiento_prom <- crecimiento_prom %>%
 ```
 
 Y aca juntamos todas las variables
+
 ```{r}
 datos <- left_join(medallas_por_pais, crecimiento_prom, by = "paises")
 View(datos)
@@ -102,7 +103,14 @@ Por otro lado, se decidió incluir e identificar la variable inflación. Conside
 
 Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
 
-<div/>
+| Variables                            | Descripción                                                                       | Signo           | Observaciones |
+|--------------------------------------|-----------------------------------------------------------------------------------|-----------------|---------------|
+| Total de Medallas                    | Total de medallas obtenidas por el país *j.*                                      | medallas\_ *j*  | 151           |
+| Crecimiento Promedio del PIB         | El promedio simple de la tasa de crecimiento del PIB desde 1950 para el país *j.* | *growthgdp_j*   | 151           |
+| Crecimiento Promedio de la Población | Crecimiento poblacional promedio del país *j*                                     | *growthpob\_ j* | 151           |
+| Desempleo                            | Tasa de desempleo promedio del país *j*                                           | *u_j*           | 151           |
+| Inflacion                            | Tasa de inflación promedio del país *j*                                           | *inf_j*         | 151           |
+|                                      |                                                                                   |                 |               |
 
 ### **6.** Se identifican los análisis estadísticos/econométricos que se realizarán, y estos se adecúan a la base de datos y a las variables seleccionadas.
 
@@ -113,4 +121,3 @@ Arias, F. G., & Arias, F. G. Macro-variables determinantes del éxito deportivo 
 Jové Martínez, J. (2016). ¿ Qué factores macroeconómicos influyen en la obtención de medallas olímpicas y paralímpicas?.
 
 Hoffmann, R., Ging, L. C., & Ramasamy, B. (2002). The socio-economic determinants of international soccer performance. Journal of Applied economics, 5(2), 253-272.
-
