@@ -2,9 +2,9 @@
 title: "Segunda Entrega del Proyecto"
 date: "26/3/2021"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 # **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
@@ -100,7 +100,7 @@ growth_gdp <- growth_gdp %>%
     fecha = `growth_gdp$date`,
     growth = `growth_gdp$NY.GDP.PCAP.KD.ZG`
       )
-growth_gdp <- drop_na(crecimiento)
+growth_gdp <- drop_na(growth_gdp)
 
 growth_gdp_prom <- aggregate(growth_gdp$growth, list(growth_gdp$paises), FUN=mean)
 growth_gdp_prom <- growth_gdp_prom %>%
@@ -127,7 +127,7 @@ inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
 Y aca juntamos todas las variables
 
 ```{r}
-datos <- left_join(medallas_por_pais, crecimiento_prom, by = "paises")
+datos <- left_join(medallas_por_pais, growth_gdp_prom, by = "paises")
 View(datos)
 ```
 
