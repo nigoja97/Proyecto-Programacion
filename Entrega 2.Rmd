@@ -11,7 +11,7 @@ output:
 
 ### **1.** Integrantes de grupo.
 
--   *Nicolas Gonzalez*
+-   *Nicolas González*
 
 -   *Joan Galeano*
 
@@ -21,7 +21,12 @@ output:
 
 -   ¿Es el buen desempeño económico un factor decisivo para un rendimiento sobresaliente en los Juegos Olímpicos de verano?
 
--   oicaoisncoasncoiascinasicnasoincasoncoasincoasihfh 0gñosdbcsjbcñobcsoñjbcduoc weñoufgweiñucsd
+  El éxito de los países participantes de los Juegos Olímpicos depende de muchos factores; uno de ellos es la preparación física y mental de sus deportistas, donde es correcto afirmar que mientras el participante disponga de un equipo técnico idóneo, un nivel de entrenamiento regular en su disciplina y un persistente apoyo del país en términos de inversión hacia el deporte, el resultado sería la ejecución de un desempeño sobresaliente durante los juegos. Sin embargo, parte de la preparación de un buen deportista está sujeta al apoyo del país hacia el deporte nacional en términos de inversión, creando una infraestructura necesaria para el desenvolvimiento y el avance deportivo de los representantes en los juegos internacionales. 
+
+  Se considera que aquellos países que gestionan cuantiosas inversiones en el sector deporte, enfocarían sus prioridades de gasto público en actividades financieras diferentes a las deudas, al saldo de déficits y a la eliminación de los pasivos, por lo tanto, la economía estaría en una situación de no recalentamiento y manejaría un buen comportamiento presupuestal para apoyar a los deportistas nacionales y mejorar el desempeño en los juegos internacionales.   
+  
+  Debido a lo anterior, se considera que los países que presentan mejor desempeño en los Juegos Olímpicos son aquellos cuyas economías son fuertes y avanzadas, y poseen un gasto público diversificado para poder apoyar el deporte nacional. De manera que, bajo el análisis de diversos fundamentales macroeconómicos, se dará evidencia para afirmar el hecho de que las buenas economías son los países que presentan un mejor desempeño deportivo en los Juegos Olímpicos.  
+
 
 ### **3.** Revisión Bibliográfica
 
@@ -29,9 +34,9 @@ output:
 
 Los estudios realizados sobre los factores que influyen en el desempeño del país en diferentes deportes son muy variados. Para el caso del fútbol, por ejemplo, está The socio-economic determinants of international soccer performance. de Hoffman et al, donde se argumenta, sostiene y demuestra que los factores culturales, geográficos y demográficos afectan significativamente el desempeño en el deporte. Mientras que después de un punto, el PIB per cápita empieza a afectar negativamente el desempeño.
 
-Por otro lado, también encontramos ¿Qué factores macroeconómicos influyen en la obtención de medallas olímpicas y paralímpicas? de Martinez, utilizando un modelo econométrico de datos panel para 2004, 2008 y 2012. Se toma como variables explicativas el logaritmo de PIB per cápita, el logaritmo de la población (lngdp_pc), el país (country) y el año (year). Como control, se toma una variable binaria que toma valor de 1 cuando el país en cuestión fue el anfitrión de los juegos ese año y el valor de 0 si no fue así (host).
+Por otro lado, se encuentra el informe titulado ¿Qué factores macroeconómicos influyen en la obtención de medallas olímpicas y paralímpicas? de Martinez, utilizando un modelo econométrico de datos panel para 2004, 2008 y 2012. Se toman como variables explicativas el logaritmo de PIB per cápita, el logaritmo de la población (lngdp_pc), el país (country) y el año (year). Como control, se toma una variable binaria que toma valor de 1 cuando el país en cuestión fue el anfitrión de los juegos ese año y el valor de 0 si no fue así (host).
 
-Y aunque rechaza el modelo de efectos aleatorios, se determina que la única variable que influye en la obtención de medallas en ambos juegos es host, pues el resto resultaron ser estadísticamente no significativas. De todos modos, el autor resalta la falta de precisión de sus variables y de las bases de datos utilizadas. Y propone utilizar "gasto del gobierno en deportes" para futuros análisis de la misma índole. Además, se llega a la conclusión que el hecho de saber que un país va a ser el próximo anfitrión de los juegos, sería lógico suponer que la inversión, privada y pública, aumente, así como la preparación de los atletas.
+Aunque se rechaza el modelo de efectos aleatorios, se determina que la única variable que influye en la obtención de medallas en ambos juegos es host, pues el resto resultaron ser estadísticamente no significativas. De todos modos, el autor resalta la falta de precisión de sus variables y de las bases de datos utilizadas, proponiendo la utilización de la variable "gasto del gobierno en deportes" para futuros análisis de la misma índole. Además, se llega a la conclusión que el hecho de saber que un país va a ser el próximo anfitrión de los juegos, sería lógico suponer que la inversión, privada y pública, aumente, así como la preparación de los atletas.
 
 Alejado del enfoque econométrico se encuentra Macro-variables determinantes del éxito deportivo y olímpico de Arias. Donde se realiza una interesante distinción bastante importante sobre las variables que afectan el éxito deportivo, sabiendo que las variables más importantes son las micro (lo que respecta al deportista de manera individual). A estas variables micro, le siguen las variables meso (todas las políticas públicas en relación con el deporte pero que no son exclusivas de un solo atleta). Finalmente, se encuentran las variables macro, que se pueden definir como todo el conjunto de condiciones socioculturales del país.
 
@@ -88,7 +93,7 @@ medallas_por_pais <- tibble(paises, medallas)
 
 ### Variables explicativas
 
-Crecimiento Promedio del PIB
+En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa. 
 
 ```{r}
 growth_gdp <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
@@ -108,25 +113,25 @@ growth_gdp_prom <- growth_gdp_prom %>%
     )
 ```
 
-Crecimiento Promedio de la Poblacion
+A continuación, se usará la Tasa de crecimiento de la población. 
 
 ```{r}
 growth_pob <- wb_data("SP.POP.GROW", start_date = 1950, end_date = 2016)
 ```
 
-Tasa promedio del desempleo
+También se decidió incluir la Tasa promedio de paro.
 
 ```{r}
 desempleo_total <- wb_data("SL.UEM.TOTL.ZS", start_date = 1950, end_date = 2016)
 ```
 
-Tasa promedio de la inflacion
+Se incluirá la Tasa promedio de inflación para explicar su efecto parcial sobre el desempeño deportivo en los juegos olímpicos. 
 
 ```{r}
 inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
 ```
 
-Y aca juntamos todas las variables
+Finalmente, se hace un proceso de adjunción de todas las variables en un mismo objeto. 
 
 ```{r}
 datos <- left_join(medallas_por_pais, growth_gdp_prom, by = "paises")
@@ -141,7 +146,7 @@ El buen desempeño económico de los países está dado por una multiplicidad de
 
 Por otro lado, se decidió incluir e identificar la variable inflación. Consideramos esta de gran relevancia en la investigación para determinar el comportamiento macroeconómico de cada país que se encuentra ligado a su vez con el PIB. En cuanto a la variable Desempleo, determinamos su relevancia debido a su información para analizar entorno económico de cada uno de los países.
 
-Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
+Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Tasa de Inflación promedio, Tasa de Desempleo promedio, Producto Interno Bruto pomedio y Tasa de crecimiento poblacional promedio). Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
 
 +--------------------------------------+-----------------------------------------------------------------------------------+-----------------+---------------+
 | Variables                            | Descripción                                                                       | Signo           | Observaciones |
@@ -159,7 +164,7 @@ Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados pa�
 
 ### **6.** Metodología
 
-Se estimará un modelo econometrico por MCO el cual tendra como objetivo explicar la relacion existente entre el total de medallas ganado por los paises en base a su comportamiento macroeconomico desde los años 50. Seguido por un analisis de los resultados donde se determinara la significancia de las variables en el largo plazo para finalmente concluir sobre las mismas y saber si se cumple la hipotesis o no.
+Se estimará un modelo econométrico por MCO (mínimos cuadrados ordinaros) el cual tendrá como objetivo explicar la relación existente entre el total de medallas ganado por los países, con base a su comportamiento macroeconómico durante los últimos años 50. Seguido a esto, se realizará un análisis de los resultados donde se determinará la significancia de las variables en el largo plazo para finalmente concluir sobre las mismas y saber si se cumple la hipótesis central de investigación, o se deberá rechazar.
 
 ### **7.** Referencias bibliográficas
 
