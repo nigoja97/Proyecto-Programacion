@@ -158,7 +158,7 @@ tidy_data<- left_join(datos2, inflacion_prom,by = "paises")
 tidy_data <- drop_na(tidy_data)
 View(tidy_data)
 
-loop <- as.data.frame(tidy_data)
+clases <- as.data.frame(tidy_data)
 for (i in tidy_data) {
   print(class(i))
 }
