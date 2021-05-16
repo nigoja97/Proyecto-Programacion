@@ -21,7 +21,7 @@ output:
 
 ### Paquetes
 
-```{r, echo=FALSE}
+```{r}
 library(tidyverse)
 library(rvest)
 library(haven)
@@ -91,9 +91,8 @@ growth_pob <-drop_na(growth_pob)
 growth_pob_prom <- aggregate(growth_pob$growth_p, list(growth_pob$paises), FUN=mean)
 growth_pob_prom <- growth_pob_prom %>%
   rename(
-    paises = Group.1, Crecimiento=x
+    paises = Group.1, crecimiento=x
     )
-
 ```
 
 También se decidió incluir la Tasa promedio de paro.
@@ -154,17 +153,15 @@ for (i in tidy_data) {
   print(class(i))
 }
 ```
-
 ###Punto6
 ```{r}
 tidy_data %>% 
   group_by(paises,medallas) %>%
   head(15)%>%
-  ggplot(aes(x=reorder(paises,medallas),y=medallas, fill=paises)) +
-  geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "Países", y= "Medallas")+
+ggplot(aes(x=reorder(paises,medallas),y=medallas, fill=paises)) +
+geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "Países", y= "Medallas")+
 theme_solarized_2()  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
-
 ```
 
 ###punto 7
@@ -172,9 +169,7 @@ plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.pos
 cor(tidy_data$Crecimiento, tidy_data$GDP, use = "complete.obs")
 cor(tidy_data$Crecimiento, tidy_data$DESP, use = "complete.obs")
 cor(tidy_data$Crecimiento, tidy_data$INF, use = "complete.obs")
-cor(tidy_data$GDP, tidy_data$INF, use = "complete.obs")
-cor(tidy_data$GDP, tidy_data$DESP, use = "complete.obs")
-cor(tidy_data$INF, tidy_data$DESP, use = "complete.obs")
+
 ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2()  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 
