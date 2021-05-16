@@ -58,21 +58,24 @@ medallas_por_pais <- tibble(paises, medallas)
 En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa. 
 
 ```{r}
-growth_gdp <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
-growth_gdp <- tibble(growth_gdp$country,growth_gdp$date,growth_gdp$NY.GDP.PCAP.KD.ZG)
-growth_gdp <- growth_gdp %>% 
+gdp_current <- wb_data("NY.GDP.PCAP.CD", start_date = 1950, end_date = 2016)
+gdp_current <- tibble(gdp_current$country,gdp_current$date,gdp_current$NY.GDP.PCAP.CD)
+gdp_current <- gdp_current %>% 
   rename(
-    paises = `growth_gdp$country`,
-    fecha = `growth_gdp$date`,
-    growth = `growth_gdp$NY.GDP.PCAP.KD.ZG`
+    paises = "gdp_current$country",
+    fecha = "gdp_current$date",
+    usd= "gdp_current$NY.GDP.PCAP.CD"
       )
-growth_gdp <- drop_na(growth_gdp)
+gdp_current<- drop_na(gdp_current)
 
-growth_gdp_prom <- aggregate(growth_gdp$growth, list(growth_gdp$paises), FUN=mean)
-growth_gdp_prom <- growth_gdp_prom %>%
+gdp_prom <- aggregate(gdp_current$usd, list(gdp_current$paises), FUN=mean)
+gdp_prom <- gdp_prom %>%
   rename(
     paises = Group.1, GDP=x
     )
+
+
+
 ```
 
 A continuación, se usará la Tasa de crecimiento de la población. 
@@ -141,7 +144,7 @@ Finalmente, se hace un proceso de adjunción de todas las variables en un mismo 
 ```{r}
 datos <- left_join(medallas_por_pais, growth_pob_prom,by = "paises")
 View(datos)
-datos1 <- left_join(datos, growth_gdp_prom,by = "paises")
+datos1 <- left_join(datos,gdp_prom,by = "paises")
 View(datos1)
 datos2 <- left_join(datos1, desempleo_total_prom,by = "paises")
 View(datos2)
@@ -160,17 +163,32 @@ tidy_data %>%
   head(15)%>%
 ggplot(aes(x=reorder(paises,medallas),y=medallas, fill=paises)) +
 geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "Países", y= "Medallas")+
-theme_solarized_2()  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
-plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+theme_solarized(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))+labs(fill = "Países")
+
+ggplot(data = tidy_data, 
+       mapping = aes(x= tidy_data$GDP)) + 
+  geom_histogram(binwidth = 100) + 
+  
+geom_freqpoly(bins=100,color="lightgreen")+
+  xlim(-4000, 8000)
 ```
 
 ###punto 7
 ```{r}
-cor(tidy_data$Crecimiento, tidy_data$GDP, use = "complete.obs")
-cor(tidy_data$Crecimiento, tidy_data$DESP, use = "complete.obs")
-cor(tidy_data$Crecimiento, tidy_data$INF, use = "complete.obs")
+cor(tidy_data$crecimiento, tidy_data$GDP, use = "complete.obs")
+cor(tidy_data$crecimiento, tidy_data$DESP, use = "complete.obs")
+cor(tidy_data$crecimiento, tidy_data$INF, use = "complete.obs")
 
-ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2()  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
-plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3")) 
 
 ```
+###Punto 8
+```{r}
+ggplot(data = tidy_data, aes(x =medallas,y =GDP)) + 
+geom_point(color="khaki2") +
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "PIB a precios corrientes")+theme_solarized(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+```
+
