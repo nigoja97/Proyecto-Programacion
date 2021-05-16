@@ -17,11 +17,9 @@ output:
 
 -   *Alejandro Guevara*
 
-
-
 ### Paquetes
 
-```{r, echo=FALSE, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rvest)
 library(haven)
@@ -70,7 +68,7 @@ medallas_por_pais[122,1] <- "Saudi Arabia"
 
 ### Variables explicativas
 
-En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa. 
+En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa.
 
 ```{r}
 growth_gdp <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
@@ -90,7 +88,7 @@ growth_gdp_prom <- growth_gdp_prom %>%
     )
 ```
 
-A continuación, se usará la Tasa de crecimiento de la población. 
+A continuación, se usará la Tasa de crecimiento de la población.
 
 ```{r}
 growth_pob <- wb_data("SP.POP.GROW", start_date = 1950, end_date = 2016)
@@ -129,7 +127,7 @@ desempleo_total_prom <- desempleo_total_prom %>%
     )
 ```
 
-Se incluirá la Tasa promedio de inflación para explicar su efecto parcial sobre el desempeño deportivo en los juegos olímpicos. 
+Se incluirá la Tasa promedio de inflación para explicar su efecto parcial sobre el desempeño deportivo en los juegos olímpicos.
 
 ```{r}
 inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
@@ -149,7 +147,7 @@ inflacion_prom <-inflacion_prom %>%
     )
 ```
 
-Finalmente, se hace un proceso de adjunción de todas las variables en un mismo objeto. 
+Finalmente, se hace un proceso de adjunción de todas las variables en un mismo objeto.
 
 ```{r}
 datos <- left_join(medallas_por_pais, growth_pob_prom,by = "paises")
@@ -167,14 +165,16 @@ for (i in tidy_data) {
 }
 ```
 
-###Punto5
+### Punto 5
+
 ```{r}
 resumen_paises <- tidy_data %>% 
   summary()
 resumen_paises
 ```
 
-###Punto6
+### Punto 6
+
 ```{r}
 tidy_data %>% 
   group_by(paises,medallas) %>%
@@ -186,7 +186,8 @@ plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.pos
 
 ```
 
-###punto 7
+### Punto 7
+
 ```{r, message=FALSE,warning=FALSE}
 cor(tidy_data$POB, tidy_data$GDP, use = "complete.obs")
 cor(tidy_data$POB, tidy_data$DESP, use = "complete.obs")
