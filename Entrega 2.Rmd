@@ -21,7 +21,7 @@ output:
 
 ### Paquetes
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 library(rvest)
 library(haven)
@@ -34,7 +34,6 @@ library(readxl)
 library(GGally)
 library(Hmisc)
 library(corrplot)
-install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
 ```
 
@@ -51,6 +50,22 @@ paises <- pagina_desc %>% html_nodes("td:nth-child(1)") %>% html_text()
 medallas <- pagina_desc %>% html_nodes("td:nth-child(6)") %>% html_text()
 medallas <- as.integer(medallas)
 medallas_por_pais <- tibble(paises, medallas)
+
+medallas_por_pais[4,1] <- "United Kingdom"
+medallas_por_pais[7,1] <- "China"
+medallas_por_pais[18,1] <- "Korea, Rep."
+medallas_por_pais[43,1] <- "Iran, Islamic Rep."
+medallas_por_pais[50,1] <- "Slovak Republic"
+medallas_por_pais[59,1] <- "Egypt, Arab Rep."
+medallas_por_pais[62,1] <- "Bahamas, The"
+medallas_por_pais[83,1] <- "Venezuela, RB"
+medallas_por_pais[84,1] <- "Serbia"
+medallas_por_pais[97,1] <- "Cote d'Ivoire"
+medallas_por_pais[98,1] <- "Hong Kong SAR, China"
+medallas_por_pais[113,1] <- "Moldova"
+medallas_por_pais[117,1] <- "Tanzania"
+medallas_por_pais[121,1] <- "Kyrgyz Republic"
+medallas_por_pais[122,1] <- "Saudi Arabia"
 ```
 
 ### Variables explicativas
@@ -91,9 +106,8 @@ growth_pob <-drop_na(growth_pob)
 growth_pob_prom <- aggregate(growth_pob$growth_p, list(growth_pob$paises), FUN=mean)
 growth_pob_prom <- growth_pob_prom %>%
   rename(
-    paises = Group.1, Crecimiento=x
+    paises = Group.1, POB=x
     )
-
 ```
 
 También se decidió incluir la Tasa promedio de paro.
@@ -107,7 +121,6 @@ desempleo_total <-desempleo_total%>%
     fecha ="desempleo_total$date",
     desempleo_t ="desempleo_total$SL.UEM.TOTL.ZS"
       )
-desempleo_total
 desempleo_total <-drop_na(desempleo_total)
 desempleo_total_prom <- aggregate(desempleo_total$desempleo_t, list(desempleo_total$paises), FUN=mean)
 desempleo_total_prom <- desempleo_total_prom %>%
@@ -127,7 +140,6 @@ inflacion <- inflacion %>%
     fecha = "inflacion$date",
    inflacion_t ="inflacion$NY.GDP.DEFL.KD.ZG"
       )
-inflacion
 inflacion <- drop_na(inflacion)
 
 inflacion_prom <- aggregate(inflacion$inflacion_t, list(inflacion$paises), FUN=mean)
@@ -155,6 +167,13 @@ for (i in tidy_data) {
 }
 ```
 
+###Punto5
+```{r}
+resumen_paises <- tidy_data %>% 
+  summary()
+resumen_paises
+```
+
 ###Punto6
 ```{r}
 tidy_data %>% 
@@ -168,10 +187,10 @@ plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.pos
 ```
 
 ###punto 7
-```{r}
-cor(tidy_data$Crecimiento, tidy_data$GDP, use = "complete.obs")
-cor(tidy_data$Crecimiento, tidy_data$DESP, use = "complete.obs")
-cor(tidy_data$Crecimiento, tidy_data$INF, use = "complete.obs")
+```{r, message=FALSE,warning=FALSE}
+cor(tidy_data$POB, tidy_data$GDP, use = "complete.obs")
+cor(tidy_data$POB, tidy_data$DESP, use = "complete.obs")
+cor(tidy_data$POB, tidy_data$INF, use = "complete.obs")
 cor(tidy_data$GDP, tidy_data$INF, use = "complete.obs")
 cor(tidy_data$GDP, tidy_data$DESP, use = "complete.obs")
 cor(tidy_data$INF, tidy_data$DESP, use = "complete.obs")
