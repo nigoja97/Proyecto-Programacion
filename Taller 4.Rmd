@@ -11,11 +11,11 @@ output:
 
 ### **1.** Integrantes de grupo.
 
--   *Nicolas González*
+-   *Joan Galeano R*
 
--   *Joan Galeano*
+-   *Nicolás González J*
 
--   *Alejandro Guevara*
+-   *Alejandro Guevara H*
 
 ### Paquetes
 
