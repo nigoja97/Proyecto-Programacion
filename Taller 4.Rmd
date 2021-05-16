@@ -1,6 +1,6 @@
 ---
-title: "Segunda Entrega del Proyecto"
-date: "28/3/2021"
+title: "Taller 4: Proyecto programación"
+date: "16/05/2021"
 output:
   pdf_document: default
   html_document:
@@ -17,11 +17,9 @@ output:
 
 -   *Alejandro Guevara*
 
-
-
 ### Paquetes
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rvest)
 library(haven)
@@ -34,7 +32,6 @@ library(readxl)
 library(GGally)
 library(Hmisc)
 library(corrplot)
-install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
 ```
 
@@ -51,11 +48,27 @@ paises <- pagina_desc %>% html_nodes("td:nth-child(1)") %>% html_text()
 medallas <- pagina_desc %>% html_nodes("td:nth-child(6)") %>% html_text()
 medallas <- as.integer(medallas)
 medallas_por_pais <- tibble(paises, medallas)
+
+medallas_por_pais[4,1] <- "United Kingdom"
+medallas_por_pais[7,1] <- "China"
+medallas_por_pais[18,1] <- "Korea, Rep."
+medallas_por_pais[43,1] <- "Iran, Islamic Rep."
+medallas_por_pais[50,1] <- "Slovak Republic"
+medallas_por_pais[59,1] <- "Egypt, Arab Rep."
+medallas_por_pais[62,1] <- "Bahamas, The"
+medallas_por_pais[83,1] <- "Venezuela, RB"
+medallas_por_pais[84,1] <- "Serbia"
+medallas_por_pais[97,1] <- "Cote d'Ivoire"
+medallas_por_pais[98,1] <- "Hong Kong SAR, China"
+medallas_por_pais[113,1] <- "Moldova"
+medallas_por_pais[117,1] <- "Tanzania"
+medallas_por_pais[121,1] <- "Kyrgyz Republic"
+medallas_por_pais[122,1] <- "Saudi Arabia"
 ```
 
 ### Variables explicativas
 
-En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa. 
+En este caso, se presenta la Tasa de crecimiento del PIB como primera variable explicativa.
 
 ```{r}
 gdp_current <- wb_data("NY.GDP.PCAP.CD", start_date = 1950, end_date = 2016)
@@ -73,12 +86,9 @@ gdp_prom <- gdp_prom %>%
   rename(
     paises = Group.1, GDP=x
     )
-
-
-
 ```
 
-A continuación, se usará la Tasa de crecimiento de la población. 
+A continuación, se usará la Tasa de crecimiento de la población.
 
 ```{r}
 growth_pob <- wb_data("SP.POP.GROW", start_date = 1950, end_date = 2016)
@@ -94,7 +104,7 @@ growth_pob <-drop_na(growth_pob)
 growth_pob_prom <- aggregate(growth_pob$growth_p, list(growth_pob$paises), FUN=mean)
 growth_pob_prom <- growth_pob_prom %>%
   rename(
-    paises = Group.1, crecimiento=x
+    paises = Group.1, POB=x
     )
 ```
 
@@ -109,7 +119,6 @@ desempleo_total <-desempleo_total%>%
     fecha ="desempleo_total$date",
     desempleo_t ="desempleo_total$SL.UEM.TOTL.ZS"
       )
-desempleo_total
 desempleo_total <-drop_na(desempleo_total)
 desempleo_total_prom <- aggregate(desempleo_total$desempleo_t, list(desempleo_total$paises), FUN=mean)
 desempleo_total_prom <- desempleo_total_prom %>%
@@ -118,7 +127,7 @@ desempleo_total_prom <- desempleo_total_prom %>%
     )
 ```
 
-Se incluirá la Tasa promedio de inflación para explicar su efecto parcial sobre el desempeño deportivo en los juegos olímpicos. 
+Se incluirá la Tasa promedio de inflación para explicar su efecto parcial sobre el desempeño deportivo en los juegos olímpicos.
 
 ```{r}
 inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
@@ -129,7 +138,6 @@ inflacion <- inflacion %>%
     fecha = "inflacion$date",
    inflacion_t ="inflacion$NY.GDP.DEFL.KD.ZG"
       )
-inflacion
 inflacion <- drop_na(inflacion)
 
 inflacion_prom <- aggregate(inflacion$inflacion_t, list(inflacion$paises), FUN=mean)
@@ -139,16 +147,15 @@ inflacion_prom <-inflacion_prom %>%
     )
 ```
 
-Finalmente, se hace un proceso de adjunción de todas las variables en un mismo objeto. 
+Finalmente, se hace un proceso de adjunción de todas las variables en un mismo objeto.
 
 ```{r}
 datos <- left_join(medallas_por_pais, growth_pob_prom,by = "paises")
-View(datos)
 datos1 <- left_join(datos,gdp_prom,by = "paises")
-View(datos1)
 datos2 <- left_join(datos1, desempleo_total_prom,by = "paises")
-View(datos2)
 tidy_data<- left_join(datos2, inflacion_prom,by = "paises")
+
+tidy_data <- drop_na(tidy_data)
 View(tidy_data)
 
 loop <- as.data.frame(tidy_data)
@@ -156,39 +163,65 @@ for (i in tidy_data) {
   print(class(i))
 }
 ```
-###Punto6
+
+### Punto 5
+
 ```{r}
+resumen_paises <- tidy_data %>% 
+  summary()
+resumen_paises
+```
+
+### Punto 6
+
+```{r, warning=FALSE,message=FALSE}
 tidy_data %>% 
   group_by(paises,medallas) %>%
   head(15)%>%
 ggplot(aes(x=reorder(paises,medallas),y=medallas, fill=paises)) +
 geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "Países", y= "Medallas")+
-theme_solarized(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))+labs(fill = "Países")
 
 ggplot(data = tidy_data, 
        mapping = aes(x= tidy_data$GDP)) + 
   geom_histogram(binwidth = 100) + 
-  
 geom_freqpoly(bins=100,color="lightgreen")+
   xlim(-4000, 8000)
 ```
 
-###punto 7
-```{r}
-cor(tidy_data$crecimiento, tidy_data$GDP, use = "complete.obs")
-cor(tidy_data$crecimiento, tidy_data$DESP, use = "complete.obs")
-cor(tidy_data$crecimiento, tidy_data$INF, use = "complete.obs")
+### Punto 7
 
-ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+```{r, message=FALSE, warning=FALSE}
+cor(tidy_data$POB, tidy_data$GDP, use = "complete.obs")
+cor(tidy_data$POB, tidy_data$DESP, use = "complete.obs")
+cor(tidy_data$POB, tidy_data$INF, use = "complete.obs")
+
+ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3")) 
 
 ```
-###Punto 8
-```{r}
+
+### Punto 8
+
+```{r, warning=FALSE, message=FALSE}
 ggplot(data = tidy_data, aes(x =medallas,y =GDP)) + 
-geom_point(color="khaki2") +
-labs(title = "Diagrama de dispersión", x= "Medallas", y= "PIB a precios corrientes")+theme_solarized(light = F)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+geom_point(color="blue") +
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "PIB a precios corrientes")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+
+ggplot(data = tidy_data, aes(x =medallas,y =POB)) + 
+geom_point(color="red") +
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "Crecimiento poblacional promedio")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+
+ggplot(data = tidy_data, aes(x =medallas,y =INF)) + 
+geom_point(color="green") +
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "Inflación promedio")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
+
+ggplot(data = tidy_data, aes(x =medallas,y =DESP)) + 
+geom_point(color="black") +
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "Desempleo promedio")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 ```
-
