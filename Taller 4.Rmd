@@ -104,7 +104,7 @@ growth_pob <-drop_na(growth_pob)
 growth_pob_prom <- aggregate(growth_pob$growth_p, list(growth_pob$paises), FUN=mean)
 growth_pob_prom <- growth_pob_prom %>%
   rename(
-    paises = Group.1, POB=x
+    paises = Group.1, PIB = x
     )
 ```
 
@@ -183,19 +183,29 @@ geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "País
 theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))+labs(fill = "Países")
 
-ggplot(data = tidy_data, 
-       mapping = aes(x= tidy_data$GDP)) + 
-  geom_histogram(binwidth = 100) + 
-geom_freqpoly(bins=100,color="lightgreen")+
-  xlim(-4000, 8000)
+
+
+ggplot(tidy_data, aes(x = tidy_data$GDP)) +
+  
+  geom_histogram(position = "identity", color = "Yellow",alpha = 0.9)+
+  
+  theme(legend.position = "top") +
+  
+  ggtitle("Histograma PIB") +
+  
+  ylab("Frecuencia") +
+  
+  xlab("PIB a precios corrientes (USD)")
 ```
+Al analizar los diagramas de dispersión, se observa que la gran mayoría de pares ordenados presentan correlaciones negativas entre sí, a excepción de la relación entre la inflación y el desempleo. Se encuentra además que la matriz de correlación expone 3 ejemplares significativos. La primera es el desempleo y la población, la cual llega a ser significativa a al 5%, y es de carácter negativa. La segunda es la relación entre el desempleo y el PIB, la cual es significativa al 10% e inversa. La tercera es la relación entre la inflación y el PIB, la cual es significativa al 10% y presenta una relación inversa entre sí. Finalmente, se encuentra que la relación entre la inflación y el desempleo es de carácter positiva, por lo que se establece que mayores niveles de inflación están asociados con mayores niveles de desempleo, tal y como afirma la teoría económica al describir el postulado de Curva de Phillips. 
+
 
 ### Punto 7
 
 ```{r, message=FALSE, warning=FALSE}
-cor(tidy_data$POB, tidy_data$GDP, use = "complete.obs")
-cor(tidy_data$POB, tidy_data$DESP, use = "complete.obs")
-cor(tidy_data$POB, tidy_data$INF, use = "complete.obs")
+cor(tidy_data$PIB, tidy_data$GDP, use = "complete.obs")
+cor(tidy_data$PIB, tidy_data$DESP, use = "complete.obs")
+cor(tidy_data$PIB, tidy_data$INF, use = "complete.obs")
 
 ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3")) 
@@ -210,9 +220,9 @@ geom_point(color="blue") +
 labs(title = "Diagrama de dispersión", x= "Medallas", y= "PIB a precios corrientes")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 
-ggplot(data = tidy_data, aes(x =medallas,y =POB)) + 
+ggplot(data = tidy_data, aes(x =medallas,y =PIB)) + 
 geom_point(color="red") +
-labs(title = "Diagrama de dispersión", x= "Medallas", y= "Crecimiento poblacional promedio")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
+labs(title = "Diagrama de dispersión", x= "Medallas", y= "Crecimiento poblacional promedio")+ theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 
 ggplot(data = tidy_data, aes(x =medallas,y =INF)) + 
@@ -221,7 +231,20 @@ labs(title = "Diagrama de dispersión", x= "Medallas", y= "Inflación promedio")
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 
 ggplot(data = tidy_data, aes(x =medallas,y =DESP)) + 
-geom_point(color="black") +
+geom_point(color = "black") +
 labs(title = "Diagrama de dispersión", x= "Medallas", y= "Desempleo promedio")+theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 ```
+
+### Punto 9
+
+Al haber analizado las estadísticas descriptas presentadas en los puntos anteriores, se logra observar sin lugar a duda que Estados Unidos es el país que mayor número de medallas (entre ellas; oro, plata y bronce) ha sumado a lo largo de la historia. Esto podría ser explicado parcialmente por el tamaño de la población, dado que es uno de los países participantes con mayor número de habitantes. Con respecto al análisis agregado junto con los demás países, se encuentra que la media de medallas ganadas por país desde 1950 hasta la actualidad corresponde a 132, sin embargo, este valor es bastante sensibles ante valores atípicos, como lo indica la participación de Estados Unidos en los juegos internacionales. 
+
+En cuanto al PIB corriente expresado en miles de millones de dólares, se evidencia que la media corresponde a 7829mm de dólares norteamericanos, además, el grado de variabilidad es bastante alto debido a que el nivel mínimo de PIB corresponde a 159mm de dólares norteamericanos, y el máximo a 40313mm. Al haber observado el histograma de la variable anterior, se encuentra que la gran mayoría de los datos están concentrados entre el mínimo y el promedio, lo cual deja en evidencia que gran parte de los países participantes poseen bajos niveles de PIB. Además, la distribución de la variable de acuerdo con el histograma llega a presentar asimetría positiva, o hacia la derecha, lo cual establece que hay diversos niveles de producto al interior las naciones partícipes de los juegos olímpicos, donde pocos países poseen ingresos muy altos, y la gran mayoría posee ingresos relativamente bajos. Por otro lado, se descarta que el comportamiento de la variable se comporte normal, debido a la asimetría positiva. 
+
+De acuerdo con los diagramas de dispersión presentados en las tablas cruzadas, se logra establecer que todas las distribuciones presentan asimetría positiva, de manera que se rechaza parcialmente el hecho de que alguna variable logre presentar un comportamiento normal. Asimismo, algunos de los cruces presentan mayor cohesión entre las observaciones, por lo que la variabilidad de los datos es más baja para aquellas gráficas cuyas observaciones estén más juntas. Finalmente, al haber analizado el diagrama de dispersión de la variable dependiente e independiente, se establece que se logra gestar una relación positiva, donde mayores niveles de ingreso (PIB), podrían explicar mayor número de medallas ganadas con el paso del tiempo. 
+
+
+
+
+
