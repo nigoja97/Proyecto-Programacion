@@ -2,9 +2,11 @@
 title: "Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos"
 author: "Galeano, González & Guevara"
 date: "31/05/2021"
-output: beamer_presentation
-theme: "Berlin"
-themecolor: "beaver"
+output:
+  beamer_presentation:
+    theme: "Berlin"
+    colortheme: "beaver"
+    fonttheme: "structurebold"
 ---
 
 ```{r setup, include=FALSE}
@@ -26,11 +28,14 @@ library(Hmisc)
 library(corrplot)
 library(PerformanceAnalytics)
 library(stargazer)
+library(mmtable2)
+library(gt)
 ```
 
 ## Variables
 
 ### Explicada
+
 Numero de medallas obtenidas por cada país hasta los juegos olímpicos de London 2012. Adicionalmente organizamos la base de datos, eliminamos datos faltantes y renombramos algunos países para evitar problemas de incompatibilidad.
 
 ```{r}
@@ -59,7 +64,6 @@ medallas_por_pais[117,1] <- "Tanzania"
 medallas_por_pais[121,1] <- "Kyrgyz Republic"
 medallas_por_pais[122,1] <- "Saudi Arabia"
 ```
-
 
 ### Explicativas
 
@@ -160,8 +164,60 @@ head(tidy_data[1:6])
 ```{r}
 resumen_paises <- tidy_data %>% 
   summary()
-resumen_paises[,1:6]
+resumen_paises <- as.data.frame(resumen_paises)
+resumen_paises <- resumen_paises[-1]
+
+resumen_paises <- pivot_wider(data = resumen_paises, names_from = Var2, values_from = Freq)
+resumen_paises
+
+#Este es el ejemplo que encontré para el paquete de mmtable2 
+{data_wrangled <- mpg %>%
+  group_by(manufacturer, cyl) %>%
+  summarise(across(.cols = c(cty, hwy), .fns = mean)) %>%
+  ungroup() %>%
+  pivot_longer(
+    cols = c(cty, hwy),
+    names_to = "fuel_economy_type",
+    values_to = "fuel_economy"
+  )
+
+data_wrangled
+
+
+# 2.0 Table Main ----
+main_table <- data_wrangled %>%
+  mutate(fuel_economy = round(fuel_economy, 1)) %>%
+  
+  mmtable(table_data = fuel_economy, table_name = "Fuel Economy") +
+  
+  # Specify Headers
+  header_top(manufacturer) +
+  header_left(cyl) +
+  header_left_top(fuel_economy_type) +
+  
+  
+  # Specify formatting
+  header_format(manufacturer, list(cell_text(transform = "capitalize"))) +
+  header_format(fuel_economy_type, list(cell_text(transform = "uppercase"))) +
+  table_format(
+    locations = list(
+      cells_body(rows = c(2, 6))
+    ),
+    style     = list(
+      cell_borders(sides = "top", color = "grey")
+    )
+
+  )
+
+# 3.0 Modify with GT Table ----
+main_table %>%
+  gt::tab_header(
+    title = "Fuel Economy by Car Manufacturer",
+    subtitle = "Audi, VW, and Honda are leaders in Fuel Economy"
+  )
+}
 ```
+
 ## Medallas y PIB
 
 ```{r, warning=FALSE,message=FALSE}
@@ -186,8 +242,8 @@ ggplot(tidy_data, aes(x = tidy_data$GDP)) +
 ```
 
 ## Medallas y PIB
-Al analizar los diagramas de dispersión, se observa que la gran mayoría de pares ordenados presentan correlaciones negativas entre sí, a excepción de la relación entre la inflación y el desempleo. Se encuentra además que la matriz de correlación expone 3 ejemplares significativos. La primera es el desempleo y la población, la cual llega a ser significativa a al 5%, y es de carácter negativa. La segunda es la relación entre el desempleo y el PIB, la cual es significativa al 10% e inversa. La tercera es la relación entre la inflación y el PIB, la cual es significativa al 10% y presenta una relación inversa entre sí. Finalmente, se encuentra que la relación entre la inflación y el desempleo es de carácter positiva, por lo que se establece que mayores niveles de inflación están asociados con mayores niveles de desempleo, tal y como afirma la teoría económica al describir el postulado de Curva de Phillips. 
 
+Al analizar los diagramas de dispersión, se observa que la gran mayoría de pares ordenados presentan correlaciones negativas entre sí, a excepción de la relación entre la inflación y el desempleo. Se encuentra además que la matriz de correlación expone 3 ejemplares significativos. La primera es el desempleo y la población, la cual llega a ser significativa a al 5%, y es de carácter negativa. La segunda es la relación entre el desempleo y el PIB, la cual es significativa al 10% e inversa. La tercera es la relación entre la inflación y el PIB, la cual es significativa al 10% y presenta una relación inversa entre sí. Finalmente, se encuentra que la relación entre la inflación y el desempleo es de carácter positiva, por lo que se establece que mayores niveles de inflación están asociados con mayores niveles de desempleo, tal y como afirma la teoría económica al describir el postulado de Curva de Phillips.
 
 ## Correlaciones
 
@@ -234,11 +290,11 @@ plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.pos
 
 ## Análisis preliminar
 
-Al haber analizado las estadísticas descriptas presentadas en los puntos anteriores, se logra observar sin lugar a duda que Estados Unidos es el país que mayor número de medallas (entre ellas; oro, plata y bronce) ha sumado a lo largo de la historia. Esto podría ser explicado parcialmente por el tamaño de la población, dado que es uno de los países participantes con mayor número de habitantes. Con respecto al análisis agregado junto con los demás países, se encuentra que la media de medallas ganadas por país desde 1950 hasta la actualidad corresponde a 132, sin embargo, este valor es bastante sensibles ante valores atípicos, como lo indica la participación de Estados Unidos en los juegos internacionales. 
+Al haber analizado las estadísticas descriptas presentadas en los puntos anteriores, se logra observar sin lugar a duda que Estados Unidos es el país que mayor número de medallas (entre ellas; oro, plata y bronce) ha sumado a lo largo de la historia. Esto podría ser explicado parcialmente por el tamaño de la población, dado que es uno de los países participantes con mayor número de habitantes. Con respecto al análisis agregado junto con los demás países, se encuentra que la media de medallas ganadas por país desde 1950 hasta la actualidad corresponde a 132, sin embargo, este valor es bastante sensibles ante valores atípicos, como lo indica la participación de Estados Unidos en los juegos internacionales.
 
-En cuanto al PIB corriente expresado en miles de millones de dólares, se evidencia que la media corresponde a 7829mm de dólares norteamericanos, además, el grado de variabilidad es bastante alto debido a que el nivel mínimo de PIB corresponde a 159mm de dólares norteamericanos, y el máximo a 40313mm. Al haber observado el histograma de la variable anterior, se encuentra que la gran mayoría de los datos están concentrados entre el mínimo y el promedio, lo cual deja en evidencia que gran parte de los países participantes poseen bajos niveles de PIB. Además, la distribución de la variable de acuerdo con el histograma llega a presentar asimetría positiva, o hacia la derecha, lo cual establece que hay diversos niveles de producto al interior las naciones partícipes de los juegos olímpicos, donde pocos países poseen ingresos muy altos, y la gran mayoría posee ingresos relativamente bajos. Por otro lado, se descarta que el comportamiento de la variable se comporte normal, debido a la asimetría positiva. 
+En cuanto al PIB corriente expresado en miles de millones de dólares, se evidencia que la media corresponde a 7829mm de dólares norteamericanos, además, el grado de variabilidad es bastante alto debido a que el nivel mínimo de PIB corresponde a 159mm de dólares norteamericanos, y el máximo a 40313mm. Al haber observado el histograma de la variable anterior, se encuentra que la gran mayoría de los datos están concentrados entre el mínimo y el promedio, lo cual deja en evidencia que gran parte de los países participantes poseen bajos niveles de PIB. Además, la distribución de la variable de acuerdo con el histograma llega a presentar asimetría positiva, o hacia la derecha, lo cual establece que hay diversos niveles de producto al interior las naciones partícipes de los juegos olímpicos, donde pocos países poseen ingresos muy altos, y la gran mayoría posee ingresos relativamente bajos. Por otro lado, se descarta que el comportamiento de la variable se comporte normal, debido a la asimetría positiva.
 
-De acuerdo con los diagramas de dispersión presentados en las tablas cruzadas, se logra establecer que todas las distribuciones presentan asimetría positiva, de manera que se rechaza parcialmente el hecho de que alguna variable logre presentar un comportamiento normal. Asimismo, algunos de los cruces presentan mayor cohesión entre las observaciones, por lo que la variabilidad de los datos es más baja para aquellas gráficas cuyas observaciones estén más juntas. Finalmente, al haber analizado el diagrama de dispersión de la variable dependiente e independiente, se establece que se logra gestar una relación positiva, donde mayores niveles de ingreso (PIB), podrían explicar mayor número de medallas ganadas con el paso del tiempo. 
+De acuerdo con los diagramas de dispersión presentados en las tablas cruzadas, se logra establecer que todas las distribuciones presentan asimetría positiva, de manera que se rechaza parcialmente el hecho de que alguna variable logre presentar un comportamiento normal. Asimismo, algunos de los cruces presentan mayor cohesión entre las observaciones, por lo que la variabilidad de los datos es más baja para aquellas gráficas cuyas observaciones estén más juntas. Finalmente, al haber analizado el diagrama de dispersión de la variable dependiente e independiente, se establece que se logra gestar una relación positiva, donde mayores niveles de ingreso (PIB), podrían explicar mayor número de medallas ganadas con el paso del tiempo.
 
 ## Modelo
 
@@ -250,10 +306,10 @@ mod2 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$GDP+tidy_data$DESP+tidy_da
 mod3 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$DESP)
 
 resumen <- stargazer(mod1,mod2,mod3, type="text", dep.var.labels = "Numero de medallas olímpicas obtenidas")
-resumen
 ```
 
 ## Pruebas
+
 ```{r}
 a <- AIC(mod1)
 b <- AIC(mod2)
@@ -264,24 +320,7 @@ colnames(AIC) <- c("Mod1", "Mod2", "Mod3")
 rownames(AIC) <- "AIC"
 AIC
 ```
+
 Definimos el tercer modelo como el mejor modelo pues es el que tiene menos perdida de información.
 
 ## Conclusiones
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
