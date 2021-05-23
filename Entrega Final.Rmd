@@ -256,8 +256,60 @@ a <- AIC(mod1)
 b <- AIC(mod2)
 c <- AIC(mod3)
 
-AIC <- c(a,b,c)
-AIC
+e <- BIC(mod1)
+f <- BIC(mod2)
+g <- BIC(mod3)
+
+AIC <- matrix(c(a,b,c))
+AIC <- round(AIC,1)
+AIC <- as.data.frame(AIC)
+AIC <- AIC %>% 
+  mutate(Modelo = c("Mod1", "Mod2", "Mod3"),
+         Criterio = "AIC") %>% 
+  relocate(Modelo) %>% 
+  rename(AIC = "V1")
+
+BIC <- matrix(c(e,f,g))
+BIC <- round(BIC,1)
+BIC <- as.data.frame(BIC)
+BIC <- BIC %>% 
+  mutate(Modelo = c("Mod1", "Mod2", "Mod3"),
+         Criterio = "BIC") %>% 
+  relocate(Modelo) %>% 
+  rename(BIC = "V1")
+
+Pruebas <- bind_rows(AIC, BIC)
+Pruebas[4:6,2] <- Pruebas[4:6,4]
+Pruebas <- Pruebas[,-4]
+Pruebas <- Pruebas %>% 
+  rename(Resultados = "AIC")
+
+tabla_pruebas <- Pruebas %>% 
+  mmtable(table_data = Resultados, table_name = "Prueba AIC/BIC")+
+  header_top(Modelo)+
+  header_left(Criterio)+
+  header_format(Modelo, list(cell_text(transform = "capitalize")))+
+  header_format(Criterio,  list(cell_text(transform = "uppercase")))+
+  table_format(
+    locations = list(
+      cells_body(rows = c(2,3), columns = 4)
+    ),
+    style     = list(
+      cell_borders(sides = "top", color = "grey"),
+      cell_fill(color = "pink"),
+      cell_text(weight = "bold",
+                style = "italic")
+    )
+  )
+
+
+  
+tabla_pruebas <- tabla_pruebas %>%
+  tab_header(
+    title = "Akaike Information Criterion Test",
+  )
+
+tabla_pruebas
 ```
 Definimos el tercer modelo como el mejor modelo pues es el que tiene menos perdida de información.
 
