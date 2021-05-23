@@ -11,7 +11,7 @@ output:
 
 El ojetivo de este trabajo es determinar los efectos de las principales variables macroeconómicas en la cantidad de medallas olímpicas obtenidas en promedio.
 
-### **1.** Integrantes de grupo.
+### Integrantes de grupo.
 
 -   *Joan Galeano R*
 

@@ -1,0 +1,168 @@
+---
+title: "Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos"
+author: "Joan Galeano R, Nicolás González J & Alejandro Guevara H"
+date: "31/05/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(rvest)
+library(haven)
+library(wbstats)
+library(dplyr)
+library(naniar)
+library(knitr)
+library(ggthemes)
+library(readxl)
+library(GGally)
+library(Hmisc)
+library(corrplot)
+library(PerformanceAnalytics)
+library(stargazer)
+```
+
+## Manejo de la base de datos
+
+## Variable explicada
+
+Organizamos la base de datos, eliminamos datos faltantes y renombramos algunos países para evitar problemas (p.e. The Bahamas -\> Bahamas, The), de esta manera, todos los nombres coinciden en las diferentes bases de datos sin afectar los datos de interés.
+
+```{r}
+pagina <-"http://www.olympedia.org/statistics/medal/country"
+pagina_desc <- read_html(pagina)
+
+paises <- pagina_desc %>% html_nodes("td:nth-child(1)") %>% html_text() 
+
+medallas <- pagina_desc %>% html_nodes("td:nth-child(6)") %>% html_text()
+medallas <- as.integer(medallas)
+medallas_por_pais <- tibble(paises, medallas)
+
+medallas_por_pais[4,1] <- "United Kingdom"
+medallas_por_pais[7,1] <- "China"
+medallas_por_pais[18,1] <- "Korea, Rep."
+medallas_por_pais[43,1] <- "Iran, Islamic Rep."
+medallas_por_pais[50,1] <- "Slovak Republic"
+medallas_por_pais[59,1] <- "Egypt, Arab Rep."
+medallas_por_pais[62,1] <- "Bahamas, The"
+medallas_por_pais[83,1] <- "Venezuela, RB"
+medallas_por_pais[84,1] <- "Serbia"
+medallas_por_pais[97,1] <- "Cote d'Ivoire"
+medallas_por_pais[98,1] <- "Hong Kong SAR, China"
+medallas_por_pais[113,1] <- "Moldova"
+medallas_por_pais[117,1] <- "Tanzania"
+medallas_por_pais[121,1] <- "Kyrgyz Republic"
+medallas_por_pais[122,1] <- "Saudi Arabia"
+```
+
+## Variables explicativas
+
+-   Tasa de crecimiento del PIB
+-   Tasa de crecimiento de la poblacion
+-   Tasa promedio de desempleo total
+-   Tasa de inflaión promedio
+
+```{r}
+growth_gdp <- wb_data("NY.GDP.PCAP.KD.ZG", start_date = 1950, end_date = 2016)
+growth_gdp <- tibble(growth_gdp$country,growth_gdp$date,growth_gdp$NY.GDP.PCAP.KD.ZG)
+growth_gdp <- growth_gdp %>% 
+  rename(paises = `growth_gdp$country`,
+    fecha = `growth_gdp$date`,
+    growth = `growth_gdp$NY.GDP.PCAP.KD.ZG`
+      )
+growth_gdp <- drop_na(growth_gdp)
+
+growth_gdp_prom <- aggregate(growth_gdp$growth, list(growth_gdp$paises), FUN=mean)
+growth_gdp_prom <- growth_gdp_prom %>%
+  rename(
+    paises = Group.1, GDP=x
+    ) %>% 
+  mutate(GDP2=GDP^2)
+```
+
+```{r}
+growth_pob <- wb_data("SP.POP.GROW", start_date = 1950, end_date = 2016)
+growth_pob <- tibble(growth_pob$country,growth_pob$date,growth_pob$SP.POP.GROW)
+growth_pob <- growth_pob %>% 
+  rename(
+    paises = "growth_pob$country",
+    fecha ="growth_pob$date",
+    growth_p ="growth_pob$SP.POP.GROW"
+      )
+growth_pob <-drop_na(growth_pob)
+
+growth_pob_prom <- aggregate(growth_pob$growth_p, list(growth_pob$paises), FUN=mean)
+growth_pob_prom <- growth_pob_prom %>%
+  rename(
+    paises = Group.1, POB = x
+    ) %>% 
+  mutate(POB2=POB^2)
+```
+
+```{r}
+desempleo_total <- wb_data("SL.UEM.TOTL.ZS", start_date = 1950, end_date = 2016)
+desempleo_total <- tibble(desempleo_total$country,desempleo_total$date,desempleo_total$SL.UEM.TOTL.ZS)
+desempleo_total <-desempleo_total%>% 
+  rename(
+    paises = "desempleo_total$country",
+    fecha ="desempleo_total$date",
+    desempleo_t ="desempleo_total$SL.UEM.TOTL.ZS"
+      )
+desempleo_total <-drop_na(desempleo_total)
+desempleo_total_prom <- aggregate(desempleo_total$desempleo_t, list(desempleo_total$paises), FUN=mean)
+desempleo_total_prom <- desempleo_total_prom %>%
+  rename(
+    paises = Group.1, DESP=x
+    )
+```
+
+```{r}
+inflacion <- wb_data("NY.GDP.DEFL.KD.ZG", start_date = 1950, end_date = 2016)
+inflacion<- tibble(inflacion$country,inflacion$date,inflacion$NY.GDP.DEFL.KD.ZG)
+inflacion <- inflacion %>% 
+  rename(
+    paises = "inflacion$country",
+    fecha = "inflacion$date",
+   inflacion_t ="inflacion$NY.GDP.DEFL.KD.ZG"
+      )
+inflacion <- drop_na(inflacion)
+
+inflacion_prom <- aggregate(inflacion$inflacion_t, list(inflacion$paises), FUN=mean)
+inflacion_prom <-inflacion_prom %>%
+  rename(
+    paises = Group.1,INF=x
+    ) %>% 
+  mutate(INF2=INF^2)
+```
+
+## Base de datos conjunta
+
+```{r}
+datos <- left_join(medallas_por_pais, growth_pob_prom,by = "paises")
+datos1 <- left_join(datos,growth_gdp_prom,by = "paises")
+datos2 <- left_join(datos1, desempleo_total_prom,by = "paises")
+tidy_data<- left_join(datos2, inflacion_prom,by = "paises")
+
+tidy_data <- drop_na(tidy_data)
+tidy_data <- tidy_data %>% 
+  relocate(paises,medallas,GDP,POB,DESP,INF)
+head(tidy_data[1:6])
+```
+
+## Slide with Bullets
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
