@@ -248,7 +248,6 @@ mod2 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$GDP+tidy_data$DESP+tidy_da
 mod3 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$DESP)
 
 resumen <- stargazer(mod1,mod2,mod3, type="text", dep.var.labels = "Numero de medallas olímpicas obtenidas")
-resumen
 ```
 ### Pruebas
 ```{r}
@@ -284,32 +283,7 @@ Pruebas <- Pruebas[,-4]
 Pruebas <- Pruebas %>% 
   rename(Resultados = "AIC")
 
-tabla_pruebas <- Pruebas %>% 
-  mmtable(table_data = Resultados, table_name = "Prueba AIC/BIC")+
-  header_top(Modelo)+
-  header_left(Criterio)+
-  header_format(Modelo, list(cell_text(transform = "capitalize")))+
-  header_format(Criterio,  list(cell_text(transform = "uppercase")))+
-  table_format(
-    locations = list(
-      cells_body(rows = c(2,3), columns = 4)
-    ),
-    style     = list(
-      cell_borders(sides = "top", color = "grey"),
-      cell_fill(color = "pink"),
-      cell_text(weight = "bold",
-                style = "italic")
-    )
-  )
-
-
-  
-tabla_pruebas <- tabla_pruebas %>%
-  tab_header(
-    title = "Akaike Information Criterion Test",
-  )
-
-tabla_pruebas
+Pruebas
 ```
 Definimos el tercer modelo como el mejor modelo pues es el que tiene menos perdida de información.
 
