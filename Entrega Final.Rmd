@@ -283,9 +283,12 @@ Pruebas <- Pruebas[,-4]
 Pruebas <- Pruebas %>% 
   rename(Resultados = "AIC")
 
-Pruebas
+Pruebas <- Pruebas %>% pivot_wider(names_from = Modelo, values_from = Resultados)
+
+
+Pruebas 
 ```
-Definimos el tercer modelo como el mejor modelo pues es el que tiene menos perdida de información.
+Definimos el tercer modelo como el mejor modelo, pues es el que tiene menos pérdida de información segúnlos criterios de AIC y BIC. 
 
 ### Conclusiones
 
