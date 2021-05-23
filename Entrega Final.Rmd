@@ -44,7 +44,7 @@ library(stargazer)
 
 ### Variable explicada
 
-Organizamos la base de datos, eliminamos datos faltantes y renombramos algunos países para evitar problemas (p.e: The Bahamas -> Bahamas, The) y de esta manera todas los nombres coinciden en las diferentes bases de datos sin afectar los datos de interés.
+Organizamos la base de datos, eliminamos datos faltantes y renombramos algunos países para evitar problemas (p.e. The Bahamas -> Bahamas, The), de esta manera, todos los nombres coinciden en las diferentes bases de datos sin afectar los datos de interés.
 
 ```{r}
 pagina <-"http://www.olympedia.org/statistics/medal/country"
@@ -189,8 +189,6 @@ geom_col() + coord_flip() +  labs(title = "Total de medallas ganadas", x= "País
 theme_solarized(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))+labs(fill = "Países")
 
-
-
 ggplot(tidy_data, aes(x = tidy_data$GDP)) +
   geom_histogram(position = "identity", color = "Yellow",alpha = 0.9)+
   theme(legend.position = "top") +
@@ -206,7 +204,6 @@ Al analizar los diagramas de dispersión, se observa que la gran mayoría de par
 ```{r, message=FALSE, warning=FALSE}
 ggpairs(tidy_data, columns = 3:6, method = c("everything", "pearson"),title="Correlograma",color="red")+theme_solarized_2(light = T)  + scale_colour_solarized('green')+theme(text = element_text(family = "serif"), 
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3")) 
-
 ```
 
 ### Dispersión de los datos
@@ -251,7 +248,9 @@ mod2 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$GDP+tidy_data$DESP+tidy_da
 mod3 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$DESP)
 
 resumen <- stargazer(mod1,mod2,mod3, type="text", dep.var.labels = "Numero de medallas olímpicas obtenidas")
+resumen
 ```
+### Pruebas
 ```{r}
 a <- AIC(mod1)
 b <- AIC(mod2)
