@@ -6,11 +6,6 @@ output:
   html_document:
     df_print: paged
 ---
-
-# **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
-
-El ojetivo de este trabajo es determinar los efectos de las principales variables macroeconómicas en la cantidad de medallas olímpicas obtenidas en promedio.
-
 ### Integrantes de grupo.
 
 -   *Joan Galeano R*
@@ -18,6 +13,22 @@ El ojetivo de este trabajo es determinar los efectos de las principales variable
 -   *Nicolás González J*
 
 -   *Alejandro Guevara H*
+
+
+# **Buen desempeño económico, la clave del éxito para un rendimiento sobresaliente en los juegos olímpicos.**
+
+El buen desempeño económico de los países está dado por una multiplicidad de condiciones que resulta
+difícil mencionar a cabalidad. Para este trabajo de investigación, se explicará el buen desempeño
+económico desde el análisis de los agregados macroeconómicos fundamentales, como lo son: la Inflación,
+el PIB (Producto Interno Bruto) y la Tasa de Desempleo. De esta manera, se podrá inferir que un país
+1
+con un nivel de desempeño óptimo desde la óptica económica será aquel cuyos agregados monetarios
+presenten valores ajustados a sus rangos objetivo.
+Por otro lado, se decidió incluir el tamaño poblacional de los países bajo el entendido de que un mayor
+número de personas pueden ser más productivas, y mejorar el desempeño económico de los países.
+Teniendo en cuenta lo anterior, se explicará el rendimiento de determinados países en los juegos olímpicos de verano, desde su desempeño económico (Inflación, Desempleo y Producto interno Bruto) y su
+tamaño poblacional. Para medir el rendimiento de los países en los Juegos Olímpicos, se tendrá en
+cuenta el total de medallas ganadas durante el periodo de 1950 hasta 2021.
 
 ### Paquetes
 
@@ -38,6 +49,10 @@ library(Hmisc)
 library(corrplot)
 library(PerformanceAnalytics)
 library(stargazer)
+library(lmtest)
+library(nortest)
+library(lindia)
+library(car)
 ```
 
 ### Manejo de la base de datos
@@ -196,8 +211,6 @@ ggplot(tidy_data, aes(x = tidy_data$GDP)) +
   ylab("Frecuencia") +
   xlab("Crecimiento del PIB (%)")
 ```
-Al analizar los diagramas de dispersión, se observa que la gran mayoría de pares ordenados presentan correlaciones negativas entre sí, a excepción de la relación entre la inflación y el desempleo. Se encuentra además que la matriz de correlación expone 3 ejemplares significativos. La primera es el desempleo y la población, la cual llega a ser significativa a al 5%, y es de carácter negativa. La segunda es la relación entre el desempleo y el PIB, la cual es significativa al 10% e inversa. La tercera es la relación entre la inflación y el PIB, la cual es significativa al 10% y presenta una relación inversa entre sí. Finalmente, se encuentra que la relación entre la inflación y el desempleo es de carácter positiva, por lo que se establece que mayores niveles de inflación están asociados con mayores niveles de desempleo, tal y como afirma la teoría económica al describir el postulado de Curva de Phillips. 
-
 
 ### Correlaciones
 
@@ -230,8 +243,6 @@ labs(title = "Diagrama de dispersión", x= "Medallas", y= "Desempleo promedio")+
 plot.title = element_text(face = "bold.italic", hjust = 0.5))+  theme(legend.position = "bottom")+theme(legend.background = element_rect(fill="lavenderblush2",size=0.5, linetype="solid", colour ="lightsalmon3"))
 ```
 
-### Análisis preliminar
-
 Al haber analizado las estadísticas descriptas presentadas en los puntos anteriores, se logra observar sin lugar a duda que Estados Unidos es el país que mayor número de medallas (entre ellas; oro, plata y bronce) ha sumado a lo largo de la historia. Esto podría ser explicado parcialmente por el tamaño de la población, dado que es uno de los países participantes con mayor número de habitantes. Con respecto al análisis agregado junto con los demás países, se encuentra que la media de medallas ganadas por país desde 1950 hasta la actualidad corresponde a 132, sin embargo, este valor es bastante sensibles ante valores atípicos, como lo indica la participación de Estados Unidos en los juegos internacionales. 
 
 En cuanto al PIB corriente expresado en miles de millones de dólares, se evidencia que la media corresponde a 7829mm de dólares norteamericanos, además, el grado de variabilidad es bastante alto debido a que el nivel mínimo de PIB corresponde a 159mm de dólares norteamericanos, y el máximo a 40313mm. Al haber observado el histograma de la variable anterior, se encuentra que la gran mayoría de los datos están concentrados entre el mínimo y el promedio, lo cual deja en evidencia que gran parte de los países participantes poseen bajos niveles de PIB. Además, la distribución de la variable de acuerdo con el histograma llega a presentar asimetría positiva, o hacia la derecha, lo cual establece que hay diversos niveles de producto al interior las naciones partícipes de los juegos olímpicos, donde pocos países poseen ingresos muy altos, y la gran mayoría posee ingresos relativamente bajos. Por otro lado, se descarta que el comportamiento de la variable se comporte normal, debido a la asimetría positiva. 
@@ -239,6 +250,11 @@ En cuanto al PIB corriente expresado en miles de millones de dólares, se eviden
 De acuerdo con los diagramas de dispersión presentados en las tablas cruzadas, se logra establecer que todas las distribuciones presentan asimetría positiva, de manera que se rechaza parcialmente el hecho de que alguna variable logre presentar un comportamiento normal. Asimismo, algunos de los cruces presentan mayor cohesión entre las observaciones, por lo que la variabilidad de los datos es más baja para aquellas gráficas cuyas observaciones estén más juntas. Finalmente, al haber analizado el diagrama de dispersión de la variable dependiente e independiente, se establece que se logra gestar una relación positiva, donde mayores niveles de ingreso (PIB), podrían explicar mayor número de medallas ganadas con el paso del tiempo. 
 
 ### Modelo
+Con el fin de cuantificar el efecto parcial de agregados macroeconómicos en el número de medallas ganadas por los países participantes de los Juegos Olímpicos, en un periodo que comprende desde 1950 hasta 2020, se decidieron establecer 3 modelos básicos. El primero explicará el número de medallas ganadas controlando por la tasa de crecimiento del GDP, la población, la inflación y el desempleo. Teniendo en cuenta los rendimientos crecientes a escala, se establece que el aumento intensivo en algunos de los factores de control podrían llegar a generar reducciones en el número de medallas ganadas, por lo tanto, se decide incluir los mismos factores de control elevados al cuadrado como otros potenciales regresores.
+El segundo modelo elimina las variables indepentes al cuadardo, y se encarga de medir los efectos de los agreagados macroeconímicos en el número de medallas ganadas. 
+Finalmente, y siguiendo la lógica de la teoría económica, el modelo 3 pondera únicamente los efectos de inflación y desempleo a la hora de explicar el número de medallas ganadas. Lo anterior tiene en cuenta el postulado de la Curva de Phillips, donde inflaciones potencialmente altas estarían asociadas con niveles de desempleo altos. 
+Se espera que el efecto parcial de variables como el crecimiento del GDP y el tamaño de la población, estén asociados con incrementos en el número de medallas por país. Sin embargo, variables como el desempleo y la inflación estarían asociadas con reducciones parciales en el número de medallas ganadas por país. 
+
 
 ```{r, warning=FALSE, message=FALSE}
 mod1 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$POB2+tidy_data$GDP+tidy_data$GDP2+tidy_data$DESP+tidy_data$INF+tidy_data$INF2)
@@ -249,7 +265,19 @@ mod3 <- lm(tidy_data$medallas~tidy_data$POB+tidy_data$DESP)
 
 resumen <- stargazer(mod1,mod2,mod3, type="text", dep.var.labels = "Numero de medallas olímpicas obtenidas")
 ```
+### Discusión de resultados 
+
+Como se esperaba, aumentos marginales en la inflación y el desempleo estaban asocidados con reducciones en el número de medallas ganadas por país. Sin embargo, el crecimiento del GDP sorprendió, dado que en el modelo 1; un aumento de un punto porcentual en la tasa del crecimiento del GDP, está asociado con una reducción de 24 medallas en promedio, manteniendo lo demás cosntante. La variable de GDP al cuadrado presenta un coeficiente positivo, por lo que se establece que cuando la variación en el GDP es positiva y alta, un aumento de un punto porcentual estaría asociado con el incremento de 2 medallas ganadas por país en promedio, controlando por los demás factores.  
+El tamaño de la población discrepó de la intuición, dado que a mayor número de habitantes, menor número de medallas obtenidas por país. Sin embargo, y teniendo en cuenta el análisis de la variable población al cuadrado, aumentos muy significativos de población, están asociados con el aumento de 11 medallas en promedio por país, controlando por las demás variables. 
+Con respecto al análisis de la inflación y el desempleo, se encuentra que aumentos marginales porcentuales en cada una de estas tasas, están asociados con reducciones promedio de 1 y 9 medallas respectivamente, manteniendo lo demás constante. La variable de inflación al cuadrado presenta un resultado insignificante en términos de magnitud, dado que cuando la inflación está desanclada o es de carácter galopante, no hay aumentos de medallas ganadas por país. 
+El comportamiento de los regresores es el mismo en los tres modelos, al igual que la significancia estadística. En los tres modelos se afirma que la varibiale de población es sifnificativa a un nivel de 1%, por lo tanto, es considerado como un regresor que se debe incluir fundamentalmente al ejecutar el análisis de regresión. Por otro lado, la tasa de desempleo llega a ser significativa al 10%, por lo que se considera como un buen regresor. 
+Analizando la significancia conjunta, se obtiene evidencia suficiente para rechazar el hecho de que al menos uno de los coeficientes del modelo sea completamente insignificante. 
+Finalmente, se encuentra que el modelo 1 es aquel cuya proporción de la variación explicada por los regresores es la más alta, siendo así un buen modelo en términos de bondad de ajuste. 
+
 ### Pruebas
+
+A continuación se presentan los criterios de Akaike y el Bayesiano con el fin de aislar el mejor modelo. 
+
 ```{r}
 a <- AIC(mod1)
 b <- AIC(mod2)
@@ -289,6 +317,32 @@ Pruebas <- Pruebas %>% pivot_wider(names_from = Modelo, values_from = Resultados
 Pruebas 
 ```
 Definimos el tercer modelo como el mejor modelo, pues es el que tiene menos pérdida de información segúnlos criterios de AIC y BIC. 
+
+Ahora, se analizará la homosedasticidad en el modelo.
+
+```{r}
+bptest(mod3)
+```
+Según el valor-p obetnido en la prueba de Breusch-Pagan, no se rechaza el hecho de los errores posean varianza constante. 
+
+Un tercer paso será analizar el supuesto de Normalidad en los errores. 
+
+```{r, warning = FALSE, message = FALSE}
+
+qqnorm(mod3$residuals, pch = 24, col = "darkblue")
+qqline(mod3$residuals, col = "blue", lwd = 2)
+
+mean(mod3$residuals)
+
+```
+Al analizar los resultados anteriores, se encuentra que la media es casi 0, y la gráfica muestra una tendencia adherente entre la línea de tendencia y la muestras por cuantil, por lo que se establece que la distribución de los errores es de carácter normal. 
+
+Finalmente, se conidera pertinente evaular la autocorrelación con los errores. 
+
+```{r}
+dwtest(mod3)
+```
+Dado que el valor-p es inferior al nivel de significania, se encuentra evidencia para rechazar la no autocorrelación entre los errores, por lo tanto, los errores están correlacionados entre sí. 
 
 ### Conclusiones
 
